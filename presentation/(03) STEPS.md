@@ -4,7 +4,7 @@ This document walks through exactly what happens, in order, when code is pushed 
 
 ## Repository structure
 
-```
+```plaintext
 your-repo/
 ├── .github/workflows/deploy.yml    Pipeline definition (security scans + deploy)
 ├── app/
@@ -72,6 +72,7 @@ Downloads the AWS provider plugin and initializes the working directory.
 **Step 4 — Terraform apply**
 
 Reads `main.tf` and creates the actual AWS infrastructure:
+
 - A **security group** allowing inbound SSH (port 22) and Streamlit (port 8501)
 - An **EC2 instance** running Ubuntu, using Learner Lab's `LabInstanceProfile` and `vockey` key pair
 
@@ -88,6 +89,7 @@ The IP address captured in Step 5 is written into an inventory file, telling Ans
 
 **Step 8 — Run the Ansible playbook**
 Ansible connects to the new EC2 instance over SSH (using `labuser.pem`) and:
+
 1. Updates package lists
 2. Installs Python 3 and pip
 3. Copies the application code onto the server
@@ -99,6 +101,7 @@ Ansible connects to the new EC2 instance over SSH (using `labuser.pem`) and:
 ## What happens on a subsequent push
 
 Because `terraform apply` is idempotent (it only changes what's different from the current state), pushing again will:
+
 - Leave existing infrastructure untouched if nothing in `main.tf` changed
 - Re-run the Ansible playbook, redeploying the latest application code to the existing server
 
