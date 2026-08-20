@@ -1,0 +1,148 @@
+name: CI/CD
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+
+# NOTE: May not have any security depending on the length of the presentation
+
+  # ## Static Security Features
+
+  # sas-with-codeql:
+  #   name: Static App Security with CodeQL
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     actions: read
+  #     contents: read
+  #     security-events: write
+
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Initialize CodeQL
+  #       uses: github/codeql-action/init@v3
+  #       with:
+  #         languages: python
+
+  #     - name: Perform CodeQL Analysis
+  #       uses: github/codeql-action/analyze@v3
+
+  # secrets-scanning:
+  #   name: Secrets Scanning with Gitleaks
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Run Gitleaks
+  #       uses: gitleaks/gitleaks-action@v2
+
+  # ## Infrastructure Security Features
+
+  # iac-security:
+  #   name: IaC Security using Terraform and Checkov
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Setup Terraform
+  #       uses: hashicorp/setup-terraform@v3
+
+  #     - name: Terraform fmt check
+  #       working-directory: terraform
+  #       run: terraform fmt -check
+
+  #     - name: Terraform validate
+  #       working-directory: terraform
+  #       run: terraform init -backend=false && terraform validate
+
+  #     - name: Run Checkov
+  #       uses: bridgecrewio/checkov-action@v12
+  #       with:
+  #         directory: terraform
+
+  # config-security:
+  #   name: Configuration Security (Ansible Lint)
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v4
+
+  #     - name: Install Ansible + ansible-lint
+  #       run: |
+  #         sudo apt-get update
+  #         sudo apt-get install -y ansible python3-pip
+  #         pip install ansible-lint
+
+  #     - name: Run ansible-lint
+  #       working-directory: ansible
+  #       run: ansible-lint . || true # NOTE: Runs ansible in non blocking mode
+
+  # Deployment
+
+  deploy:
+    name: Deploy Infrastructure and Application
+    runs-on: ubuntu-latest
+
+    # needs:
+    #   - sas-with-codeql
+    #   - secrets-scanning
+
+    #   - iac-security
+    #   - config-security
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
+      AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }} # us-east-1
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create private key file for Ansible
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/labuser.pem
+          chmod 600 ~/.ssh/labuser.pem
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+
+      - name: Terraform init
+        working-directory: terraform
+        run: terraform init
+
+      - name: Terraform apply
+        working-directory: terraform
+        run: terraform apply -auto-approve
+
+      - name: Get EC2 public IP
+        id: tf-ip
+        working-directory: terraform
+        run: echo "ip=$(terraform output -raw ec2_public_ip)" >> $GITHUB_OUTPUT
+
+      - name: Install Ansible
+        run: sudo apt-get update && sudo apt-get install -y ansible
+
+      - name: Disable host key checking
+        run: echo "ANSIBLE_HOST_KEY_CHECKING=False" >> $GITHUB_ENV
+
+      - name: Create Ansible inventory
+        working-directory: ansible
+        run: |
+          echo "[web]" > inventory
+          echo "${{ steps.tf-ip.outputs.ip }} ansible_user=ubuntu ansible_ssh_private_key_file=~/.ssh/labuser.pem" >> inventory
+
+      - name: Test SSH manually
+        run: |
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/labuser.pem ubuntu@${{ steps.tf-ip.outputs.ip }} "echo connected"
+
+      - name: Run Ansible playbook
+        working-directory: ansible
+        run: ansible-playbook -i inventory playbook.yml
