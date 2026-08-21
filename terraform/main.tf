@@ -43,4 +43,16 @@ resource "aws_instance" "web_app_instance" {
   vpc_security_group_ids = [aws_security_group.web_app_sg.id]
   monitoring             = true
   provider               = aws
+  ebs_optimized = true
+
+  metadata_options {
+    http_endpoint               = "enabled"
+    http_tokens                 = "required"
+    http_put_response_hop_limit = 1
+  }
+
+  root_block_device {
+    encrypted = true
+  }
+
 }
