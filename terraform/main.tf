@@ -33,6 +33,7 @@ resource "aws_security_group" "web_app_sg" {
   provider = aws
 }
 
+# Fuad was here
 
 resource "aws_instance" "web_app_instance" {
 
