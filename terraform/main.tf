@@ -31,7 +31,6 @@ resource "aws_security_group" "web_app_sg" {
   }
 
   provider   = aws
-  depends_on = [aws_instance.web_app_instance]
 }
 
 
