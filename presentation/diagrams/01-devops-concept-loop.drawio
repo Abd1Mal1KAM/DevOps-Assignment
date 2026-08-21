@@ -1,0 +1,64 @@
+<mxGraphModel dx="986" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- Title -->
+    <mxCell id="title" value="DevOps: The Continuous Loop" style="text;html=1;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+      <mxGeometry x="260" y="10" width="330" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- Development -->
+    <mxCell id="dev" value="Development&#10;(write code)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="345" y="60" width="160" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- CI -->
+    <mxCell id="ci" value="Continuous Integration&#10;(build &amp; test automatically)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="580" y="200" width="180" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- CD -->
+    <mxCell id="cd" value="Continuous Delivery/Deployment&#10;(release &amp; provision automatically)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="530" y="380" width="220" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Operations -->
+    <mxCell id="ops" value="Operations&#10;(run in production)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="345" y="500" width="160" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Monitoring/Feedback -->
+    <mxCell id="feedback" value="Monitoring &amp; Feedback&#10;(observe &amp; learn)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="110" y="380" width="180" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Center label: automation -->
+    <mxCell id="center" value="Automation &amp;&#10;Infrastructure as Code&#10;(underpins every stage)" style="ellipse;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="365" y="240" width="120" height="120" as="geometry" />
+    </mxCell>
+
+    <!-- Arrows around the loop -->
+    <mxCell id="e1" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="dev" target="ci">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e2" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="ci" target="cd">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="cd" target="ops">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e4" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="ops" target="feedback">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+    <mxCell id="e5" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;" edge="1" parent="1" source="feedback" target="dev">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <!-- Feedback loop label -->
+    <mxCell id="e5label" value="feeds back into next change" style="text;html=1;fontSize=10;fontStyle=2;align=center;" vertex="1" parent="1">
+      <mxGeometry x="130" y="200" width="180" height="20" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>

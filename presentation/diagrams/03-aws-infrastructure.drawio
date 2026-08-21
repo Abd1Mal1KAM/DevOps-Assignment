@@ -1,0 +1,89 @@
+<mxGraphModel dx="986" dy="563" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- Title -->
+    <mxCell id="title" value="AWS Infrastructure Architecture (Learner Lab)" style="text;html=1;fontSize=20;fontStyle=1;align=center;" vertex="1" parent="1">
+      <mxGeometry x="180" y="10" width="480" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- GitHub Actions Runner (outside AWS) -->
+    <mxCell id="runner" value="GitHub Actions Runner&#10;(Terraform + Ansible)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="60" y="80" width="200" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Learner Lab boundary -->
+    <mxCell id="lab" value="AWS Academy Learner Lab (us-east-1)" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=13;fontStyle=1;fillColor=none;strokeColor=#232F3E;dashed=1;" vertex="1" parent="1">
+      <mxGeometry x="340" y="80" width="440" height="520" as="geometry" />
+    </mxCell>
+
+    <!-- Temp Credentials -->
+    <mxCell id="creds" value="Temporary Credentials&#10;(Access Key, Secret Key,&#10;Session Token — expire&#10;every few hours)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="360" y="110" width="180" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- LabInstanceProfile -->
+    <mxCell id="labprofile" value="LabInstanceProfile&#10;(pre-existing IAM instance profile —&#10;custom roles cannot be created)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="570" y="110" width="190" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Security Group -->
+    <mxCell id="sg" value="Security Group: web_app_sg&#10;Inbound: TCP 22 (SSH) 0.0.0.0/0&#10;Inbound: TCP 8501 (Streamlit) 0.0.0.0/0&#10;Outbound: all traffic allowed" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="400" y="230" width="340" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- EC2 Instance -->
+    <mxCell id="ec2" value="EC2 Instance: web_app_instance&#10;AMI: Ubuntu 22.04&#10;Type: t2.micro&#10;Key pair: vockey" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="400" y="350" width="340" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- systemd service inside instance -->
+    <mxCell id="service" value="systemd service: streamlit-app&#10;runs: streamlit run app.py --server.port 8501&#10;(installed &amp; started by Ansible playbook)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=11;align=left;spacingLeft=8;" vertex="1" parent="1">
+      <mxGeometry x="420" y="450" width="300" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- End user browser -->
+    <mxCell id="user" value="End user&#10;http://&lt;public-ip&gt;:8501" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=13;" vertex="1" parent="1">
+      <mxGeometry x="60" y="450" width="200" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Arrows -->
+    <mxCell id="e1" value="1. Authenticates with" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=10;" edge="1" parent="1" source="runner" target="creds">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e2" value="2. Terraform apply&#10;creates/uses" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=10;" edge="1" parent="1" source="runner" target="sg">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="150" y="270" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <mxCell id="e3" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="sg" target="ec2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e4" value="attached to" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;dashed=1;fontSize=10;" edge="1" parent="1" source="labprofile" target="ec2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e5" value="3. SSH (Ansible playbook)&#10;installs &amp; starts" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=10;" edge="1" parent="1" source="runner" target="service">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="150" y="480" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <mxCell id="e6" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;" edge="1" parent="1" source="ec2" target="service">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+    <mxCell id="e7" value="4. HTTP request" style="edgeStyle=orthogonalEdgeStyle;rounded=1;html=1;endArrow=block;fontSize=10;" edge="1" parent="1" source="user" target="ec2">
+      <mxGeometry relative="1" as="geometry" />
+    </mxCell>
+
+  </root>
+</mxGraphModel>
