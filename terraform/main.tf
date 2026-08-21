@@ -36,7 +36,7 @@ resource "aws_security_group" "web_app_sg" {
 
 resource "aws_instance" "web_app_instance" {
 
-  ami                    = data.aws_ami.amazon_linux
+  ami                    = data.aws_ami.ubuntu
   instance_type          = var.instance_type
   iam_instance_profile   = var.iam_instance_profile
   key_name               = var.key_name
