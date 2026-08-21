@@ -111,8 +111,8 @@ variable "ubuntu_account_id" {
   description = "The AWS account id for ubuntu"
 
   default = "099720109477"
-  type = string
+  type    = string
 
-# canonical hosts ubuntus AMIS (Amazon Machine Images). so we need the account id for canonical in order to dynamically retrieve the latest AMI from ubuntu
+  # canonical hosts ubuntus AMIS (Amazon Machine Images). so we need the account id for canonical in order to dynamically retrieve the latest AMI from ubuntu
 
 }

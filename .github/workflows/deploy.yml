@@ -21,15 +21,15 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.0
 
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: python
 
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
 
   secrets-scanning:
     name: Secrets Scanning with Gitleaks
@@ -89,12 +89,12 @@ jobs:
     name: Deploy Infrastructure and Application
     runs-on: ubuntu-latest
 
-    # needs:
-    #   - sas-with-codeql
-    #   - secrets-scanning
+    needs:
+      - sas-with-codeql
+      - secrets-scanning
 
-    #   - iac-security
-    #   - config-security
+      - iac-security
+      - config-security
 
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}

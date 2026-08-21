@@ -30,7 +30,7 @@ resource "aws_security_group" "web_app_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  provider   = aws
+  provider = aws
 }
 
 
