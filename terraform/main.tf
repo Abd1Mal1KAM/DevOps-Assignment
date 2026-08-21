@@ -43,7 +43,7 @@ resource "aws_instance" "web_app_instance" {
   vpc_security_group_ids = [aws_security_group.web_app_sg.id]
   monitoring             = true
   provider               = aws
-  ebs_optimized = true
+  ebs_optimized          = true
 
   metadata_options {
     http_endpoint               = "enabled"
