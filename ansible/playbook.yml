@@ -57,3 +57,17 @@
         name: streamlit-app
         enabled: true
         state: started
+
+    - name: Wait for app to become reachable
+      ansible.builtin.wait_for:
+        port: 8501
+        host: 0.0.0.0
+        delay: 5
+        timeout: 30
+        state: started
+
+    - name: Show service status if it failed
+      ansible.builtin.command: systemctl status streamlit-app --no-pager
+      register: service_status
+      changed_when: false
+      when: false
