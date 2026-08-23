@@ -68,7 +68,7 @@ variable "outbound_protocol" {
 variable "instance_type" {
   description = "Instance Type for EC2 Instance"
 
-  default = "t2.micro"
+  default = "t3.micro"
   type    = string
 
   # Terraform does not validate EC2 instance types because AWS maintains a large and constantly evolving catalog of instance families. Instead of hardcoding an enum, Terraform delegates validation to AWS at apply time. This design avoids drift and ensures compatibility with new instance types without requiring provider updates.
