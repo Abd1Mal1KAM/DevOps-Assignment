@@ -20,12 +20,13 @@
         dest: /home/ubuntu/app/
         owner: ubuntu
         group: ubuntu
-        mode: '0755'
+        mode: "0755"
 
     - name: Install Python dependencies
       ansible.builtin.pip:
         requirements: /home/ubuntu/app/requirements.txt
         executable: pip3
+        extra_args: --break-system-packages
 
     - name: Create systemd service for Streamlit app
       ansible.builtin.copy:
@@ -43,7 +44,7 @@
 
           [Install]
           WantedBy=multi-user.target
-        mode: '0644'
+        mode: "0644"
         owner: root
         group: root
 
