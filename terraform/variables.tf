@@ -75,20 +75,10 @@ variable "instance_type" {
 
 }
 
-variable "iam_instance_profile" {
-  description = "Profile for AWS EC2 Instance"
-
-  default = "LabInstanceProfile"
-  type    = string
-
-  # No validation needed here. The profile names are defined in aws and are unreachable from here. If it fails, the code will crash loudly during the ssh connect stage
-
-}
-
 variable "key_name" {
   description = "Key Name for SSH Connection"
 
-  default = "vockey"
+  default = "DevOps-Assignment_Key"
   type    = string
 
   # No validation needed here. The key name is defined in aws and is unreachable from here. If it fails, the code will crash loudly during the ssh connect stage
