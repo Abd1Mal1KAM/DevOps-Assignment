@@ -3,7 +3,7 @@ data "aws_ami" "ubuntu" {
   owners      = [var.ubuntu_account_id]
 
   filter {
-    name   = "architecture "
+    name   = "architecture"
     values = ["i386", "x86_64"]
   }
 }
