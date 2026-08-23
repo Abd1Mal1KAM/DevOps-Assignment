@@ -81,7 +81,7 @@ jobs:
 
       - name: Run ansible-lint
         working-directory: ansible
-        run: ansible-lint . || true # NOTE: Runs ansible in non blocking mode
+        run: ansible-lint
 
   # Deployment
 
@@ -99,7 +99,6 @@ jobs:
     env:
       AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      AWS_SESSION_TOKEN: ${{ secrets.AWS_SESSION_TOKEN }}
       AWS_DEFAULT_REGION: ${{ vars.AWS_DEFAULT_REGION }}
 
     steps:
