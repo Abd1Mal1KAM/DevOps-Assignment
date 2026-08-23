@@ -43,6 +43,9 @@
 
           [Install]
           WantedBy=multi-user.target
+        mode: '0644'
+        owner: root
+        group: root
 
     - name: Reload systemd
       ansible.builtin.systemd:
