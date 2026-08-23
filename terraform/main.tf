@@ -39,6 +39,7 @@ resource "aws_instance" "web_app_instance" {
 
   ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
+  iam_instance_profile   = aws_iam_instance_profile.ec2_profile.name
   key_name               = var.key_name
   vpc_security_group_ids = [aws_security_group.web_app_sg.id]
   monitoring             = true
