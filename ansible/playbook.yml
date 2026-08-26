@@ -22,6 +22,12 @@
         group: ubuntu
         mode: "0755"
 
+    - name: Upgrade pip3
+      ansible.builtin.pip:
+        name: pip
+        executable: pip3
+        state: latest
+
     - name: Install Python dependencies
       ansible.builtin.pip:
         requirements: /home/ubuntu/app/requirements.txt
