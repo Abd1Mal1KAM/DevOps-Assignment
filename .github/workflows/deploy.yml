@@ -6,8 +6,6 @@ on:
 
 jobs:
 
-# NOTE: May not have any security depending on the length of the presentation
-
   ## Static Security Features
 
   sas-with-codeql:
