@@ -1,0 +1,16 @@
+{
+    "yaml.disableSchemaDetection": [
+        "**/.github/workflows/*.yml",
+        "**/.github/workflows/*.yaml",
+        "**/.gitea/workflows/*.yml",
+        "**/.gitea/workflows/*.yaml",
+        "**/.forgejo/workflows/*.yml",
+        "**/.forgejo/workflows/*.yaml",
+        "azure-pipelines.yml",
+        "azure-pipelines.yaml"
+    ],
+    "yaml.schemas": {
+        "https://www.schemastore.org/github-action.json": "file:///c%3A/Users/Abdimalik.AbdiMohame/Downloads/Apprenticeship/VSCode/Learning/DevOps-Assignment/.github/workflows/deploy.yml",
+        "https://www.schemastore.org/github-workflow.json": "file:///c%3A/Users/Abdimalik.AbdiMohame/Downloads/Apprenticeship/VSCode/Learning/DevOps-Assignment/.github/workflows/deploy.yml"
+    }
+}
