@@ -26,7 +26,8 @@
       ansible.builtin.pip:
         name: pip
         executable: pip3
-        state: latest
+        state: present
+        extra_args: "--upgrade"
 
     - name: Install Python dependencies
       ansible.builtin.pip:
